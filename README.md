@@ -1,3 +1,3 @@
-# My Awesome Book
+# Foto's bewerken
 
-This file file serves as your book's preface, a great place to describe your book's content and ideas.
+Python is een hele cool taal. Je kunt er van alles mee! Zo kun je ook foto's bewerken. In deze workshop ga je hiermee aan de slag. Succes!
