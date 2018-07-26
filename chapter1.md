@@ -32,11 +32,9 @@ Ga op zoek naar een leuk plaatje. Niet te groot hoor! Vervang de link in de code
 
 
 ## Zwart-wit foto's
-Zwart-wit foto's zijn weer helemaal in! Ook op social media. Er kunnen meerdere redenen zijn waarom je zou kiezen voor een zwart-wit foto:
-* kleuren leiden teveel af;
-* zwart-wit foto's kun je altijd maken, terwijl kleurenfoto's bijvoorbeeld midden op een zonnige dag vaak moeilijker te maken zijn;
+Zwart-wit foto's zijn weer helemaal in! Ook op social media.
 
-We gaan nu een zwart-wit versie van het plaatje toveren. Check de onderstaande code:
+We gaan nu een zwart-wit versie van het plaatje toveren. Zie de onderstaande code:
 
 ```Python
 from PIL import Image
@@ -67,7 +65,7 @@ Met ```convert("L")``` worden de kleuren omgezet naar _grijswaardes_ tussen 0 en
 
 ## Vervagen met blur
 
-Je kunt ook plaatjes vervagen met de zogenaamde Blur filter. Hier een stukje voorbeeld:
+Je kunt ook plaatjes vervagen met de zogenaamde Blur filter. Hier een voorbeeldje:
 
 ```python
 # Ook ImageFilter importeren voor blurring
@@ -105,7 +103,19 @@ Nu gaan we iets meer de diepte in. Want wat is een plaatje eigenlijk? Een plaatj
 
 {%youtube%}15aqFQQVBWU{%endyoutube%}
 
+![](./images/grid.png)
 
+Dus:
+* Plaatjes bestaan uit een heleboel pixels (puntjes).
+* Elke pixel heeft een kleur.
+* Elke kleur heeft een waarde voor rood, groen en blauw (RGB).
+* Elke waarde is een getal tussen 0 en 255.
+* Als de waarde voor rood, groen _en_ blauw allemaal 0 is, dan is de kleur die je als resultaat hebt _zwart_.
+* En als de waarde voor rood, groen _en_ blauw 255 is (hoogste waarde) dan krijg je _wit_.
+
+### Een voorbeeld:
+
+Voer de volgende code eens uit. Wat gebeurt er?
 
 ```Python
 from PIL import Image, ImageFilter, ImageDraw, ImageFont
@@ -125,3 +135,83 @@ for y in range(height):
 
 img.save("filtered.jpg")
 ```
+
+Uitleg:
+* Met de regel ``` width, height = img.size ``` vragen we eerst de breedte en de hoogte van het plaatje op en zetten dat in variabelen.
+* Vervolgens willen we loopen door alle pixels. Omdat we te maken hebben met een 2-dimensionaal grid doen we dat met een dubbele for-loop.
+* Vervolgens pakken we een pixel met ```img.getpixel((x,y))``` en maken we van de b-waarde 0. Uiteindelijk zetten we het pixeltje terug op zijn plek.
+
+Kortom: Al het blauwe wordt weggehaald van de foto :)
+
+> #### Note::Opdracht 4
+Kun jij het programma aanpassen zodat je niet al het blauwe weghaalt, maar al het rode? Hoe ziet je plaatje er dan uit?
+
+
+## Omdraaien!
+Je kunt ook de RGB waarde voor elke pixel omdraaien. Zie eens de volgende code:
+
+```Python
+from PIL import Image, ImageFilter, ImageDraw, ImageFont
+import requests
+from io import BytesIO
+
+url = "https://as.ftcdn.net/r/v1/pics/ea2e0032c156b2d3b52fa9a05fe30dedcb0c47e3/landing/images_photos.jpg"
+response = requests.get(url)
+img = Image.open(BytesIO(response.content))
+
+width, height = img.size
+for y in range(height):
+    for x in range(width):
+      r, g, b = img.getpixel((x, y))
+      img.putpixel((x,y), (g,r,b))
+
+img.save("omgedraaid.jpg")
+```
+
+Merk op dat we voor elke pixel de r en de g hebben omgedraaid! Cool he?!
+
+> #### Note::Opdracht 5
+Pas het programma aan zodat je andere kleuren omdraait?
+
+
+## Maak een poster!
+Probeer eens de volgende code uit.
+Ga na wat er gebeurt!
+
+```Python
+from PIL import Image, ImageFilter, ImageDraw, ImageFont
+import requests
+from io import BytesIO
+
+
+# url = "https://as.ftcdn.net/r/v1/pics/ea2e0032c156b2d3b52fa9a05fe30dedcb0c47e3/landing/images_photos.jpg"
+
+url = "https://ae01.alicdn.com/kf/HTB1_gzOKpXXXXcEXXXXq6xXFXXXh/Bloemen-Zaad-Voor-Tuin-Klimmen-Rose-100-stks-China-Rozenstruik-Geweldige-Promotie-Planten-Plantenbakken-Bonsai-Zaden.jpg_640x640.jpg"
+response = requests.get(url)
+img = Image.open(BytesIO(response.content))
+
+width, height = img.size
+for y in range(height):
+    for x in range(width):
+      r, g, b = img.getpixel((x, y))
+
+      if r < 120:
+        r = 0
+      if g < 120:
+        g = 0
+      if b < 120:
+        b = 0
+
+      if r >= 120:
+        r = 120
+      if g >= 120:
+        g = 120
+      if b >= 120:
+        b = 120
+
+      img.putpixel((x,y), (r,g,b))
+
+img.save("poster.jpg")
+```
+
+Kun je het korter schrijven?
