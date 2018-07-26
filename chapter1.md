@@ -1,4 +1,4 @@
-# Workshop Intagramfilters maken met Python
+# Workshop fotofilters maken met Python
 
 Je hoeft niet alle code goed te kennen. Volg gewoon de stappen om een paar leuke dingetjes te doen met foto's.
 
